@@ -78,11 +78,13 @@ export default function InfiniteScreens() {
             }}
           >
             <Text className='px-4 text-white text-3xl'>{randomVerse?.verse}</Text>
-            <View className='px-4 flex flex-row w-full gap-4'>
-                <Text className='text-white text-3xl'>{randomVerse?.book.name}</Text>
-                <Text className='text-white text-3xl'>{randomVerse?.chapter}</Text>
-                <Text className='text-white text-3xl'>:</Text>
-                <Text className='text-white text-3xl'>{randomVerse?.index}</Text>
+            <View className='px-4 flex flex-row w-full gap-2 mt-2'>
+                <Text className='text-white text-2xl'>{randomVerse?.book.name}</Text>
+                <View className='flex flex-row w-full'>
+                    <Text className='text-white text-2xl'>{randomVerse?.chapter}</Text>
+                    <Text className='text-white text-2xl'>:</Text>
+                    <Text className='text-white text-2xl'>{randomVerse?.index}</Text>
+                </View>
             </View>
           </View>
         ))}
