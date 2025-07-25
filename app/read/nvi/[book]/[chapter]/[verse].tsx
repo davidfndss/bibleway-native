@@ -1,14 +1,14 @@
 import { View, Text } from 'react-native'
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { NviServices } from 'services/nvi-service';
+import { NviService } from 'services/nvi-service';
 import { Verse } from 'interfaces/Verse';
 
 export default function ReadVerse() {
     const { book, chapter, verse } = useLocalSearchParams();
     const [verseData, setVerseData] = useState<Verse>();
 
-    const service = new NviServices();
+    const service = new NviService();
 
     useEffect(() => {
         setVerseData(service.getVerse(String(book), Number(chapter), Number(verse)));
