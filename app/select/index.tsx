@@ -55,9 +55,9 @@ export default function Select() {
 
   return (
     <>
-    <ScrollView className='w-full h-full bg-zinc-900'>
-      <View className='w-full h-full px-6 py-[10vh] flex-col items-center justify-start bg-zinc-900 gap-8'>
-        <TouchableOpacity className='w-full py-4 px-4 bg-zinc-800 rounded-xl' onPress={() => {
+    <ScrollView className='w-full h-full bg-c1'>
+      <View className='w-full h-full px-6 py-[10vh]  mb-10 flex-col items-center justify-start bg-c1'>
+        <TouchableOpacity className='w-full py-4 px-4 bg-zinc-900 rounded-full' onPress={() => {
             setIsBookSelectionActive(!isBookSelectionActive)
             setIsChapterSelectionActive(false)
             setIsVerseSelectionActive(false)
@@ -65,8 +65,10 @@ export default function Select() {
         }>
           <View className='flex-row gap-4 items-center justify-between'>
               <View className='flex-row gap-4 items-center'>
-                  <Text className='py-2 px-4 text-white text-3xl rounded-lg bg-zinc-950'>{selectedBook?.abbrev}</Text>
-                  <Text className='text-white text-3xl'>{truncateString(selectedBook?.name, 16)}</Text>
+                  <View className='h-[40px] w-[60px] flex items-center justify-center rounded-full bg-c1'>
+                    <Text className='text-xl font-nowy' style={{ color: '#EEE2CE' }}>{selectedBook?.abbrev.toUpperCase()}</Text>
+                  </View>
+                  <Text className='text-white text-3xl font-nowy'>{truncateString(selectedBook?.name, 16)}</Text>
               </View>
 
               <Ionicons name="chevron-down" size={24} color="white" />
@@ -74,12 +76,12 @@ export default function Select() {
         </TouchableOpacity>
         {
           isBookSelectionActive === true && 
-              <View className='w-full py-4 px-4 bg-zinc-800 rounded-xl gap-y-2'>
+              <View className='w-full py-4 px-4 bg-zinc-900 gap-y-2 mt-4' style={{ borderRadius: 30 }}>
                   {
                     nvi.map((book: BibleBook, index: number) => (
-                      <TouchableOpacity className='flex-row gap-4 items-center rounded-lg' key={index} onPress={() => handleBookSelection(book)}>
+                      <TouchableOpacity className='flex-row gap-4 items-center rounded-full' key={index} onPress={() => handleBookSelection(book)}>
                         <View className='flex-row gap-4 items-center'>
-                          <Text className='py-3 w-[45px] text-center text-white text-lg rounded-full bg-zinc-950'>{book.abbrev}</Text>
+                          <Text className='py-3 w-[45px] text-center text-white text-lg rounded-full bg-c1'>{book.abbrev}</Text>
                           <Text className='text-white text-2xl'>{book.name}</Text>
                         </View>
                       </TouchableOpacity>
@@ -88,11 +90,17 @@ export default function Select() {
               </View>
         }
 
-        <TouchableOpacity className='w-full py-4 px-4 bg-zinc-800 rounded-xl' onPress={() => setIsChapterSelectionActive(!isChapterSelectionActive)}>
+        <TouchableOpacity className='w-full py-4 px-4 bg-zinc-900 rounded-full mt-8' onPress={() => {
+          setIsChapterSelectionActive(!isChapterSelectionActive)
+          setIsBookSelectionActive(false)
+          setIsVerseSelectionActive(false)
+        }}>
           <View className='flex-row gap-4 items-center justify-between'>
               <View className='flex-row gap-4 items-center'>
-                  <Text className='py-2 px-4 text-white text-3xl rounded-lg bg-zinc-950'>{selectedChapter}</Text>
-                  <Text className='text-white text-3xl'>Capítulo</Text>
+                  <View className='h-[40px] w-[60px] flex items-center justify-center rounded-full bg-c1'>
+                    <Text className='text-xl font-nowy' style={{ color: '#EEE2CE' }}>{selectedChapter}</Text>
+                  </View>
+                  <Text className='text-white text-3xl font-nowy'>Capítulo</Text>
               </View>
 
               <Ionicons name="chevron-down" size={24} color="white" />
@@ -100,12 +108,12 @@ export default function Select() {
         </TouchableOpacity>
         {
           isChapterSelectionActive === true && 
-              <View className='w-full flex flex-row flex-wrap justify-between items-start py-4 px-4 bg-zinc-800 rounded-xl gap-y-4'>
+              <View className='w-full flex flex-row flex-wrap justify-between items-start py-4 px-4 bg-zinc-900 gap-y-4 mt-4' style={{ borderRadius: 30 }}>
                   {
                     numberOfChapters > 0 && 
                     Array.from({ length: numberOfChapters }, (_, index) => index + 1).map((chapter: number, index: number) => (
-                      <TouchableOpacity className='w-[22%] rounded-lg' key={index} onPress={() => handleChapterSelection(chapter)}>
-                        <Text className='py-3 text-center text-white text-xl rounded-lg bg-zinc-950'>{chapter}</Text>
+                      <TouchableOpacity className='w-[22%] rounded-full' key={index} onPress={() => handleChapterSelection(chapter)}>
+                        <Text className='py-3 text-center text-white text-xl rounded-full bg-c1'>{chapter}</Text>
                       </TouchableOpacity>
                     ))  
                   
@@ -113,11 +121,17 @@ export default function Select() {
               </View>
         }
 
-        <TouchableOpacity className='w-full py-4 px-4 bg-zinc-800 rounded-xl' onPress={() => setIsVerseSelectionActive(!isVerseSelectionActive)}>
+        <TouchableOpacity className='w-full py-4 px-4 bg-zinc-900 rounded-full mt-8' onPress={() => {
+          setIsVerseSelectionActive(!isVerseSelectionActive)
+          setIsChapterSelectionActive(false)
+          setIsBookSelectionActive(false)
+        }}>
           <View className='flex-row gap-4 items-center justify-between'>
               <View className='flex-row gap-4 items-center'>
-                  <Text className='py-2 px-4 text-white text-3xl rounded-lg bg-zinc-950'>{selectedVerse}</Text>
-                  <Text className='text-white text-3xl'>Versículo</Text>
+                  <View className='h-[40px] w-[60px] flex items-center justify-center rounded-full bg-c1'>
+                    <Text className='text-xl font-nowy' style={{ color: '#EEE2CE' }}>{selectedVerse}</Text>
+                  </View>
+                  <Text className='text-white text-3xl font-nowy'>Versículo</Text>
               </View>
 
               <Ionicons name="chevron-down" size={24} color="white" />
@@ -125,12 +139,12 @@ export default function Select() {
         </TouchableOpacity>
         {
           isVerseSelectionActive === true && 
-            <View className='w-full flex flex-row flex-wrap justify-between items-start py-4 px-4 bg-zinc-800 rounded-xl gap-y-4'>
+            <View className='w-full flex flex-row flex-wrap justify-between items-start py-4 px-4 bg-zinc-900 gap-y-4 mt-4' style={{ borderRadius: 30 }}>
                 {
                   numberOfVerses > 0 && 
                   Array.from({ length: numberOfVerses }, (_, index) => index + 1).map((verse: number, index: number) => (
-                    <TouchableOpacity className='w-[22%] rounded-lg' key={index} onPress={() => handleVerseSelection(verse)}>
-                      <Text className='py-3 text-center text-white text-xl rounded-lg bg-zinc-950'>{verse}</Text>
+                    <TouchableOpacity className='w-[22%] rounded-full' key={index} onPress={() => handleVerseSelection(verse)}>
+                      <Text className='py-3 text-center text-white text-xl rounded-full bg-c1'>{verse}</Text>
                     </TouchableOpacity>
                   ))
                 }
@@ -142,17 +156,17 @@ export default function Select() {
     </ScrollView>
 
     <TouchableOpacity
-        className="absolute bottom-6 left-6 right-6 p-2 bg-zinc-800 rounded-xl border border-zinc-600"
+        className="absolute bottom-6 left-6 right-6 p-2 bg-zinc-900 rounded-full border border-zinc-600"
         onPress={() => router.push(`/read/nvi/${selectedBook.abbrev}/${selectedChapter}`)}
       >
         <View className='flex-row items-center justify-between'>
-          <View className='w-full p-2 bg-zinc-900 rounded-lg flex-row justify-between items-center'>
+          <View className='w-full p-2 bg-c1 rounded-full flex-row justify-between items-center'>
             <Ionicons name="arrow-forward" size={30} color='transparent' />
-            <Text className='text-white text-xl'>{selectedBook.abbrev} {selectedChapter}:{selectedVerse}</Text>  
+            <Text className='text-white text-xl font-nowyb'>{selectedBook.name} {selectedChapter}:{selectedVerse}</Text>  
             <Ionicons name="arrow-forward" size={30} color='white' />
           </View>
         </View>
       </TouchableOpacity>  
     </>
   )
-}
+} 
