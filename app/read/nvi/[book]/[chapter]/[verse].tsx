@@ -1,19 +1,12 @@
-import {
-  Animated,
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  ScrollView,
-  findNodeHandle,
-  UIManager,
-} from 'react-native';
+import { Animated, View, Text, TouchableOpacity, ActivityIndicator, ScrollView, findNodeHandle, UIManager, PanResponder } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { NviService } from 'services/nvi-service';
 import DynamicHeader from 'components/Header/DynamicHeader';
 import { BibleBook } from 'interfaces/BibleBook';
 import { useFonts } from 'expo-font';
+import { useSwipeChapterNavigation } from 'hooks/useSwipeChapterNavigation';
+import { useScrollToVerse } from 'hooks/useScrollToVerse';
 
 export default function ReadChapter() {
   const { book, chapter, verse } = useLocalSearchParams<{
@@ -21,47 +14,24 @@ export default function ReadChapter() {
     chapter: string;
     verse: string;
   }>();
-  const [chapterData, setChapterData] = useState<string[]>();
-  const scrollY = useRef(new Animated.Value(0)).current;
-
-  const scrollViewRef = useRef<ScrollView>(null);
-  const verseRefs = useRef<(View | null)[]>([]);
-
   const service = new NviService();
-  const bookInfo: BibleBook = service.getBookInfoByAbbrev(book);
 
+  const [chapterData, setChapterData] = useState<string[]>();
   const [fontsLoaded] = useFonts({
     'Nowy-Regular': require('../../../../../assets/fonts/PoltawskiNowy-Regular.ttf'),
     'Nowy-Bold': require('../../../../../assets/fonts/PoltawskiNowy-Bold.ttf'),
   });
 
+  const { scrollViewRef, verseRefs } = useScrollToVerse(Number(verse), chapterData);
+  const panResponder = useSwipeChapterNavigation(book, Number(chapter));
+
+  const bookInfo: BibleBook = service.getBookInfoByAbbrev(book);
+
   useEffect(() => {
     setChapterData(service.getChapter(book, Number(chapter)));
-  }, []);
+  }, [book, chapter]);
 
-  useEffect(() => {
-    if (!chapterData || !verse) return;
-
-    const verseIndex = Number(verse) - 1;
-    const targetRef = verseRefs.current[verseIndex];
-    const scrollRef = scrollViewRef.current;
-
-    if (!targetRef || !scrollRef) return;
-
-    const targetNode = findNodeHandle(targetRef);
-    const scrollNode = findNodeHandle(scrollRef);
-
-    if (targetNode && scrollNode) {
-      UIManager.measureLayout(
-        targetNode,
-        scrollNode,
-        () => console.warn('Erro ao medir layout'),
-        (x, y) => {
-          scrollRef.scrollTo({ y: y - 120, animated: true });
-        }
-      );
-    }
-  }, [chapterData, verse]);
+  const scrollY = new Animated.Value(0);
 
   if (!fontsLoaded || !chapterData) {
     return (
@@ -74,7 +44,7 @@ export default function ReadChapter() {
   const isChapterOne = Number(chapter) === 1;
 
   return (
-    <View className="bg-zinc-900 flex-1">
+    <View className="bg-zinc-900 flex-1" {...panResponder.panHandlers}>
       <DynamicHeader
         bookIndex={bookInfo.index!}
         bookName={bookInfo.name}
