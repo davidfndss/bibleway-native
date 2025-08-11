@@ -12,23 +12,23 @@ export function useSwipeChapterNavigation(book: string, chapter: number) {
   const goToNextChapter = () => {
     const totalChapters = service.getNumberOfChapters(book);
     if (chapter < totalChapters) {
-      router.replace(`/read/nvi/${book}/${chapter + 1}/1`);
+      router.replace(`/read/nvi/${book}/${chapter + 1}`);
     } else {
       const nextBookInfo = service.getBookInfoByIndex(bookInfo.index! + 1);
       if (nextBookInfo) {
-        router.replace(`/read/nvi/${nextBookInfo.abbrev}/1/1`);
+        router.replace(`/read/nvi/${nextBookInfo.abbrev}/1`);
       }
     }
   };
 
   const goToPreviousChapter = () => {
     if (chapter > 1) {
-      router.replace(`/read/nvi/${book}/${chapter - 1}/1`);
+      router.replace(`/read/nvi/${book}/${chapter - 1}`);
     } else {
       const prevBookInfo = service.getBookInfoByIndex(bookInfo.index! - 1);
       if (prevBookInfo) {
         const lastChapter = service.getNumberOfChapters(prevBookInfo.abbrev);
-        router.replace(`/read/nvi/${prevBookInfo.abbrev}/${lastChapter}/1`);
+        router.replace(`/read/nvi/${prevBookInfo.abbrev}/${lastChapter}`);
       }
     }
   };
