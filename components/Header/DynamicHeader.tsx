@@ -2,6 +2,7 @@ import { Animated, View, Text, TouchableOpacity, Image, TouchableHighlight } fro
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { NviService } from 'services/nvi-service';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import Group1Icon from '../../assets/svg/group-1-icon.svg';
 import Group2Icon from '../../assets/svg/group-2-icon.svg';
@@ -29,6 +30,7 @@ export default function DynamicHeader({
   const nviService = new NviService();
   const bookgroup = nviService.findBookgroupDivisionByIndex(bookIndex);
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const groupImages: Record<string, any> = {
     group1: require('../../assets/img/group-1-cover.png'),
@@ -63,10 +65,10 @@ export default function DynamicHeader({
   const headerHeight = chapter === 1
     ? scrollY.interpolate({
         inputRange: [0, 150],
-        outputRange: [300, 112],
+        outputRange: [300, 100],
         extrapolate: 'clamp',
       })
-    : new Animated.Value(112);
+    : new Animated.Value(100);
 
   return (
     <Animated.View
@@ -95,7 +97,7 @@ export default function DynamicHeader({
           resizeMode="cover"
         />
       </View>
-      <View className="w-full h-[10vh] items-center justify-between mt-10 flex flex-row px-6 relative">
+      <View className="w-full h-[10vh] items-center justify-between flex flex-row px-6 relative" style={{ paddingTop: insets.top }}>
         <TouchableOpacity onPress={() => {router.back()}}>
           <Ionicons name="chevron-back" size={40} color="white" />
         </TouchableOpacity>
