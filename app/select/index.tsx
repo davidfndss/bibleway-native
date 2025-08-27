@@ -8,6 +8,7 @@ import { NviService } from 'services/nvi-service'
 import { useRouter } from 'expo-router'
 import truncateString from 'utils/truncateStringWithElipsis'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import SearchBooks from 'components/SearchBooks/SearchBooks'
 
 export default function Select() {
   const [isBookSelectionActive, setIsBookSelectionActive] = useState(false)
@@ -85,7 +86,8 @@ export default function Select() {
   return (
     <>
       <ScrollView className="w-full h-full bg-c1">
-        <View className="w-full h-full px-6 py-[10vh] mb-10 flex-col items-center justify-start bg-c1">
+        <View className="w-full h-full px-6 pb-[10vh] pt-[6vh] mb-10 flex-col items-center justify-start bg-c1">
+          <SearchBooks />
           <TouchableOpacity
             className="w-full py-4 px-4 bg-zinc-900 rounded-full"
             onPress={() => {
@@ -127,7 +129,7 @@ export default function Select() {
           )}
 
           <TouchableOpacity
-            className="w-full py-4 px-4 bg-zinc-900 rounded-full mt-8"
+            className="w-full py-4 px-4 bg-zinc-900 rounded-full mt-6"
             onPress={() => {
               setIsChapterSelectionActive(!isChapterSelectionActive)
               setIsBookSelectionActive(false)
@@ -163,7 +165,7 @@ export default function Select() {
           )}
 
           <TouchableOpacity
-            className="w-full py-4 px-4 bg-zinc-900 rounded-full mt-8"
+            className="w-full py-4 px-4 bg-zinc-900 rounded-full mt-6"
             onPress={() => {
               setIsVerseSelectionActive(!isVerseSelectionActive)
               setIsChapterSelectionActive(false)

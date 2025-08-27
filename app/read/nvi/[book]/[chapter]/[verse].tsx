@@ -43,6 +43,8 @@ export default function ReadChapter() {
 
   const isChapterOne = Number(chapter) === 1;
 
+  console.log(book, chapter, verse)
+
   return (
     <View className="bg-zinc-900 flex-1" {...panResponder.panHandlers}>
       <DynamicHeader
